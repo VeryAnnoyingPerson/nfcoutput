@@ -1,0 +1,22 @@
+import nfc
+import time
+
+def emulate_tag():
+    print("Starting NFC tag emulation...")
+    # Open the device
+    with nfc.ContactlessFrontend('usb') as clf:
+        try:
+            # Simulate an NFC tag
+            clf.connect(
+                rdwr={
+                    'on-connect': lambda tag: print("Tag read by device"),
+                    'emulate': {
+                        'ndef': b'\x03\x10\xd1\x01\x0cT\x02enHello NFC!',
+                    },
+                }
+            )
+        except Exception as e:
+            print(f"Error: {e}")
+
+if __name__ == "__main__":
+    emulate_tag()
